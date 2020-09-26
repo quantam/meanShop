@@ -1,0 +1,21 @@
+<mat-toolbar color="primary">
+  <span>
+    <a routerLink="/">My Messages </a>
+  </span>
+  <span class="spacer"></span>
+  <ul>
+    <li>
+      <a mat-button routerLink="/auth/login" routerLinkActive="mat-accent" *ngIf="!(loggedIn$ | async)">Login</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/auth/signup" routerLinkActive="mat-accent" *ngIf="!(loggedIn$ | async)">Sign Up</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/admin/product" routerLinkActive="mat-accent" *ngIf="loggedIn$ | async">Create Product</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/admin/product" routerLinkActive="mat-accent" *ngIf="loggedIn$ | async">Create Product</a>
+    </li>
+    <button mat-button class="mat-accent" (click)="logout()" *ngIf="loggedIn$ | async">Logout</button>
+  </ul>
+</mat-toolbar>

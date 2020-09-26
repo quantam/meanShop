@@ -1,0 +1,44 @@
+<mat-card>
+  <mat-progress-spinner *ngIf="isLoading"></mat-progress-spinner>
+  <form [formGroup] = "productForm" (submit)="onSavePost()" *ngIf="!isLoading" class="product-form">
+  <mat-form-field>
+    <input type="text" formControlName = "name" matInput
+    placeholder="Name Here">
+    <mat-error *ngIf="productForm.get('name').invalid">Please enter name</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" formControlName = "price" matInput
+    placeholder="price Here">
+    <mat-error *ngIf="productForm.get('price').invalid">Please enter price</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" formControlName = "quantity" matInput
+    placeholder="quantity Here">
+    <mat-error *ngIf="productForm.get('quantity').invalid">Please enter quantity</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Favorite animal</mat-label>
+  <mat-select formControlName="category" required>
+    <mat-option>--</mat-option>
+    <mat-option *ngFor="let category of categories" [value]="category">
+      {{category.name}}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="productForm.get('category')">Please choose a category</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea formControlName="description" matInput rows="6"
+    placeholder="Description Here"></textarea>
+    <mat-error *ngIf="productForm.get('description').invalid">Please enter description</mat-error>
+  </mat-form-field>
+  <div>
+    <button mat-stroked-button type="button" (click)= "filepicker.click()" >Pick Image</button>
+    <input type="file" class="file" #filepicker (change)="onImagePicked($event)">
+  </div>
+  <div class="preview" *ngIf="imagePreview && productForm.get('image').valid">
+    <img [src]="imagePreview" [alt]="productForm.value.title">
+  </div>
+  <button mat-raised-button color="primary">Save Post</button>
+  </form>
+</mat-card>
+

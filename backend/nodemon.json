@@ -1,0 +1,6 @@
+{
+  "env":{
+    "MONGO_ATLAS_PW": "YJBTLQhBfR7J37QQ",
+    "JWT_KEY": "secet_code_here"
+  }
+}

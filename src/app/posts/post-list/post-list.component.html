@@ -1,0 +1,20 @@
+<mat-progress-spinner *ngIf="isLoading"></mat-progress-spinner>
+<mat-accordion *ngIf="(posts$|async)?.posts.length > 0 && !isLoading">
+
+  <mat-expansion-panel *ngFor="let post of (posts$ | async)?.posts">
+    <mat-expansion-panel-header>
+      {{post?.title}}
+    </mat-expansion-panel-header>
+    <p>{{post?.content}}</p>
+    <img src={{post?.imagePath}} class="imagePreview">
+
+    <mat-action-row *ngIf="(loggedIn$ | async) && userId ===post?.creator">
+      <a mat-button color="accent" [routerLink] = "['/edit', post._id]">EDIT</a>
+      <button mat-button color="warn" (click)= "onDelete(post._id)">DELETE</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<mat-paginator [length]= "3" [pageSize]= "perPage" (page)="onPageChanged($event)" *ngIf="(posts$|async)?.posts.length > 0" ></mat-paginator>
+
+<p class="mat-body-1" *ngIf="(posts$|async)?.posts.length === 0 && !isLoading">No posts avilable</p>
