@@ -9,12 +9,12 @@ import {environment} from '../../environments/environment';
   providedIn: 'root'
 })
 export class PostService {
-  private posts:Post[] = [];
+  private posts: Post[] = [];
   private backendUrl = environment.apiUrl + '/posts';
   postListner = new BehaviorSubject<any>(null);
   constructor(private http: HttpClient) { }
 
-  getPosts(perPage:number, currentPage:number){
+  getPosts(perPage: number, currentPage: number) {
     const queryParams = `?pagesize=${perPage}&page=${currentPage}`
     return this.http.get<any>(this.backendUrl+queryParams).pipe(
       map((response) => {
@@ -33,15 +33,15 @@ export class PostService {
   //   });
   // }
 
-  getUpdatedPost(){
+  getUpdatedPost() {
     return this.postListner.asObservable();
   }
 
-  setUpdatedPost(data){
+  setUpdatedPost(data) {
     this.postListner.next(data);
   }
 
-  addPosts(title:string, content:string, image: File){
+  addPosts(title: string, content: string, image: File) {
     const postData = new FormData();
     postData.append('title', title);
     postData.append('content', content);
@@ -54,15 +54,15 @@ export class PostService {
     );
   }
 
-  updatePost(id:string, title:string, content:string, image: any){
-    let postData : Post | FormData;
-    if(typeof(image) === 'object'){
+  updatePost(id: string, title: string, content: string, image: any) {
+    let postData: Post | FormData;
+    if(typeof(image) === 'object') {
       postData = new FormData();
       postData.append('_id', id);
       postData.append('title', title);
       postData.append('content', content);
       postData.append('image', image, title);
-    }else{
+    } else {
       postData = {
         _id: id,
         title: title,
@@ -77,7 +77,7 @@ export class PostService {
     );
   }
 
-  deletePost(id:string){
+  deletePost(id: string) {
     return this.http.delete(this.backendUrl+'/'+id).pipe(
       map((res) => {
         return res;
@@ -85,7 +85,7 @@ export class PostService {
     );
   }
 
-  getSinglePost(id:string){
+  getSinglePost(id: string) {
     return this.http.get(this.backendUrl+'/'+id).pipe(
       map((res) => {
         return res;

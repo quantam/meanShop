@@ -14,7 +14,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler){
     return next.handle(req).pipe(catchError((error:HttpErrorResponse) => {
-      console.log('error', error);
       this.openSnackBar(error.error.message, '');
       return throwError(error);
     }));

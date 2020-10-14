@@ -1,46 +1,34 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { SearchService } from 'src/app/services/search.service';
+import {shareReplay} from 'rxjs/operators';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  styleUrls: ['./product.component.css'],
+  providers:[NgbCarouselConfig]
 })
 export class ProductComponent implements OnInit {
-  products = [{
-    id: 123456,
-    name: 'Hp Gaming',
-    category: 'laptop',
-    price: 50000,
-    stock: 50,
-    description: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.'
-  },
-  {
-    id: 123456,
-    name: 'Hp Gaming',
-    category: 'laptop',
-    price: 50000,
-    stock: 50,
-    description: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.'
-  },
-  {
-    id: 123456,
-    name: 'Hp Gaming',
-    category: 'laptop',
-    price: 50000,
-    stock: 50,
-    description: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.'
-  },
-  {
-    id: 123456,
-    name: 'Hp Gaming',
-    category: 'laptop',
-    price: 50000,
-    stock: 50,
-    description: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.'
-  }];
-  constructor() { }
+  products$:Observable<any>;
+  images = [700, 533, 807, 124].map((n) => `https://picsum.photos/id/${n}/1300/200`);
+
+  constructor(private searchService: SearchService, config: NgbCarouselConfig) {
+    // customize default values of carousels used by this component tree
+    config.interval = 10000;
+    config.wrap = false;
+    config.keyboard = false;
+    config.pauseOnHover = false;
+  }
 
   ngOnInit() {
+    this.products$ = this.searchService.getProducts(10, 1).pipe(shareReplay());
+  }
+
+  getUrl(id){
+    return 'product-detail/id'+id;
   }
 
 }

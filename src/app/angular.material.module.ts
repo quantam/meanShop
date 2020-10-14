@@ -10,7 +10,11 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
-
+import {MatTableModule} from '@angular/material/table';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   exports: [
@@ -23,7 +27,12 @@ import {MatSelectModule} from '@angular/material/select';
     MatPaginatorModule,
     MatSnackBarModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatBadgeModule
   ]
 })
 export class AngularMaterialModule { }

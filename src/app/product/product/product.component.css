@@ -3,8 +3,11 @@
   background-size: cover;
 }
 
-.example-card {
+.card {
   max-width: 250px;
   display:inline-block;
   margin:6px;
+}
+.like {
+  font-size: 1.5rem;
 }

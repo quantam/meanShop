@@ -11,11 +11,11 @@ import { environment } from 'src/environments/environment';
 export class ProductService {
 
   private posts:Product[] = [];
-  private backendUrl = environment.apiUrl + '/products';
+  private backendUrl = environment.apiUrl + '/product';
   postListner = new BehaviorSubject<any>(null);
   constructor(private http: HttpClient) { }
 
-  getPosts(perPage:number, currentPage:number){
+  getProducts(perPage:number, currentPage:number){
     const queryParams = `?pagesize=${perPage}&page=${currentPage}`
     return this.http.get<any>(this.backendUrl+queryParams).pipe(
       map((response) => {
@@ -24,6 +24,9 @@ export class ProductService {
     );
   }
 
+  getCategories(){
+    return this.http.get<any>(environment.apiUrl + '/category');
+  }
   // modifyPostData(res){
   //   return res.posts.map(post => {
   //     return {
@@ -42,14 +45,22 @@ export class ProductService {
     this.postListner.next(data);
   }
 
-  addPosts(title:string, content:string, image: File){
+  addProduct(productInfo){
     const postData = new FormData();
-    postData.append('title', title);
-    postData.append('content', content);
-    postData.append('image', image, title);
+    postData.append('name', productInfo.name);
+    postData.append('originalPrice', productInfo.originalPrice);
+    postData.append('offerPrice', productInfo.offerPrice);
+    postData.append('description', productInfo.description);
+    postData.append('category', productInfo.category);
+    postData.append('quantity', productInfo.quantity);
+    postData.append('image', productInfo.image, productInfo.name);
+    postData.append('inStock', productInfo.inStock);
+    postData.append('totalStock', productInfo.totalStock);
+    postData.append('tags', productInfo.tags);
+
     return this.http.post<any>(this.backendUrl, postData).pipe(
       map((response) => {
-        this.setUpdatedPost(response);
+        //this.setUpdatedPost(response);
         return response;
       })
     );

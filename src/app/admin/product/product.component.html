@@ -7,20 +7,29 @@
     <mat-error *ngIf="productForm.get('name').invalid">Please enter name</mat-error>
   </mat-form-field>
   <mat-form-field>
-    <input type="text" formControlName = "price" matInput
-    placeholder="price Here">
-    <mat-error *ngIf="productForm.get('price').invalid">Please enter price</mat-error>
+    <input type="text" formControlName = "originalPrice" matInput
+    placeholder="Original price Here">
+    <mat-error *ngIf="productForm.get('originalPrice').invalid">Please enter price</mat-error>
   </mat-form-field>
   <mat-form-field>
-    <input type="text" formControlName = "quantity" matInput
-    placeholder="quantity Here">
-    <mat-error *ngIf="productForm.get('quantity').invalid">Please enter quantity</mat-error>
+    <input type="text" formControlName = "offerPrice" matInput
+    placeholder="Offer price Here">
+    <mat-error *ngIf="productForm.get('offerPrice').invalid">Please enter price</mat-error>
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Favorite animal</mat-label>
+    <input type="text" formControlName = "inStock" matInput
+    placeholder="In stock quantity Here">
+    <mat-error *ngIf="productForm.get('inStock').invalid">Please enter quantity</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input type="text" formControlName = "totalStock" matInput
+    placeholder="Total quantity Here">
+    <mat-error *ngIf="productForm.get('totalStock').invalid">Please enter quantity</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Category</mat-label>
   <mat-select formControlName="category" required>
-    <mat-option>--</mat-option>
-    <mat-option *ngFor="let category of categories" [value]="category">
+    <mat-option *ngFor="let category of (categories$ | async)?.categories" [value]="category._id">
       {{category.name}}
     </mat-option>
   </mat-select>
@@ -31,14 +40,51 @@
     placeholder="Description Here"></textarea>
     <mat-error *ngIf="productForm.get('description').invalid">Please enter description</mat-error>
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>Tags</mat-label>
+    <mat-select formControlName="tags" multiple>
+      <mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <div>
     <button mat-stroked-button type="button" (click)= "filepicker.click()" >Pick Image</button>
     <input type="file" class="file" #filepicker (change)="onImagePicked($event)">
   </div>
-  <div class="preview" *ngIf="imagePreview && productForm.get('image').valid">
-    <img [src]="imagePreview" [alt]="productForm.value.title">
+  <div *ngIf="imagePreview && productForm.get('image').valid">
+    <img [src]="imagePreview" [alt]="productForm.value.title" class="img-thumbnail" width="304" height="236">
   </div>
-  <button mat-raised-button color="primary">Save Post</button>
+  <!-- <img src="cinqueterre.jpg" class="img-thumbnail" alt="Cinque Terre" width="304" height="236">  -->
+  <button mat-raised-button color="primary">Add Product</button>
   </form>
 </mat-card>
 
+<h3 class="header">Product List:</h3>
+<div class="row">
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Name</th>
+      <td>Category</td>
+      <td>Original Price</td>
+      <td>Offer Price</td>
+      <td>Stock(qty)</td>
+      <td>Total(qty)</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of (products$ | async)?.products">
+      <td>{{product.name}}</td>
+      <td>{{product.category.name}}</td>
+      <td>{{product.price.originalPrice}}</td>
+      <td>{{product.price.offerPrice}}</td>
+      <td>{{product.quantity.inStock}}</td>
+      <td>{{product.quantity.totalStock}}</td>
+      <td>
+        <button mat-button color="primary">Edit</button>
+        <button mat-button color="danger">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

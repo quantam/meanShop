@@ -3,6 +3,10 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const appRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
+const searchRoutes = require('./routes/search');
+const cartRoutes = require('./routes/cart');
+const adminProductRoutes = require('./routes/admin/products');
+const categoryRoutes = require('./routes/admin/category');
 const path = require('path');
 const app = express();
 
@@ -35,6 +39,11 @@ app.use((req, res, next) => {
 
 app.use('/api/posts', appRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/product', adminProductRoutes);
+app.use('/api/category', categoryRoutes);
+app.use('/api/search', searchRoutes);
+app.use('/api/cart', cartRoutes);
+
 
 
 module.exports = app;

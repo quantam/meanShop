@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 import {AngularMaterialModule} from './angular.material.module';
 
@@ -14,12 +16,16 @@ import {ErrorInterceptor} from './error.interceptor';
 import { PostModule } from './posts/post.module';
 import { ProductModule } from './product/product.module';
 import { ListingModule } from './listing/listing.module';
+import { CartModule } from './cart/cart.module';
+import { MiniCartComponent } from './cart/mini-cart/mini-cart.component';
+import { CartRoutingModule } from './cart/cart-routing.module';
 // import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    MiniCartComponent
   ],
   imports: [
     BrowserModule,
@@ -30,13 +36,16 @@ import { ListingModule } from './listing/listing.module';
     AngularMaterialModule,
     PostModule,
     ProductModule,
-    ListingModule
+    ListingModule,
+    NgbModule,
+    CartModule,
+    CartRoutingModule
     // AuthModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi:true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi:true}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, MiniCartComponent]
 })
 export class AppModule { }

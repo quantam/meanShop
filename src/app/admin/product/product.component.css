@@ -1,9 +1,8 @@
 .product-form {
-  min-width: 150px;
-  max-width: 500px;
   width: 100%;
 }
 
 mat-form-field {
-  width: 100%;
+  width: 49%;
+  display: inline-block;
 }

@@ -1,21 +1,30 @@
-<mat-toolbar color="primary">
-  <span>
-    <a routerLink="/">My Messages </a>
-  </span>
-  <span class="spacer"></span>
-  <ul>
-    <li>
-      <a mat-button routerLink="/auth/login" routerLinkActive="mat-accent" *ngIf="!(loggedIn$ | async)">Login</a>
-    </li>
-    <li>
-      <a mat-button routerLink="/auth/signup" routerLinkActive="mat-accent" *ngIf="!(loggedIn$ | async)">Sign Up</a>
-    </li>
-    <li>
-      <a mat-button routerLink="/admin/product" routerLinkActive="mat-accent" *ngIf="loggedIn$ | async">Create Product</a>
-    </li>
-    <li>
-      <a mat-button routerLink="/admin/product" routerLinkActive="mat-accent" *ngIf="loggedIn$ | async">Create Product</a>
-    </li>
-    <button mat-button class="mat-accent" (click)="logout()" *ngIf="loggedIn$ | async">Logout</button>
-  </ul>
-</mat-toolbar>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
+    <div class="left-nav">
+    <ul class="navbar-nav">
+      <li *ngFor="let category of (categoryList$|async)?.categories">
+        <a mat-button routerLink="/admin/product" class="nav-link">{{category.name}}</a>
+      </li>
+      <li class="nav-item">
+        <a mat-button routerLink="/admin/product" class="nav-link">Product</a>
+      </li>
+    </ul>
+    </div>
+    <div class="right-nav d-flex justify-content-between">
+      <app-mini-cart></app-mini-cart>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a mat-button routerLink="/auth/login" class="nav-link" *ngIf="!(loggedIn$ | async)">Login</a>
+      </li>
+      <li class="nav-item">
+        <a mat-button routerLink="/auth/signup" class="nav-link" *ngIf="!(loggedIn$ | async)">Sign Up</a>
+      </li>
+    </ul>
+    </div>
+  </div>
+</nav>

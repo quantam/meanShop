@@ -1,17 +1,69 @@
-<mat-card class="example-card" *ngFor="let product of products">
-  <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>{{product.name}}</mat-card-title>
-    <mat-card-subtitle>{{product.category}}</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-  <mat-card-content>
-    <p>
-      {{product.description}}
-    </p>
-  </mat-card-content>
-  <mat-card-actions class="accent">
-    <button mat-button>Add to Cart</button>
-    <button mat-button>Wishlist</button>
-  </mat-card-actions>
-</mat-card>
+<div id="myCarousel" class="carousel slide mt-2" data-ride="carousel">
+  <ngb-carousel *ngIf="images">
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img [src]="images[0]" alt="Random first slide">
+      </div>
+      <div class="carousel-caption">
+        <h3>10 seconds between slides...</h3>
+        <p>This carousel uses customized default values.</p>
+      </div>
+    </ng-template>
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img [src]="images[1]" alt="Random second slide">
+      </div>
+      <div class="carousel-caption">
+        <h3>No mouse events...</h3>
+        <p>This carousel doesn't pause or resume on mouse events</p>
+      </div>
+    </ng-template>
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img [src]="images[2]"  alt="Random third slide">
+      </div>
+      <div class="carousel-caption">
+        <h3>No keyboard...</h3>
+        <p>This carousel uses customized default values.</p>
+      </div>
+    </ng-template>
+  </ngb-carousel>
+  </div>
+
+<div class="d-flex justify-content-start">
+  <div class="card" *ngFor="let product of (products$ | async)?.products">
+    <img class="card-img"
+    [src]="product.imagePath" alt="Vans">
+    <div class="card-img-overlay d-flex justify-content-end">
+      <button mat-icon-button color="warn">
+        <mat-icon>favorite</mat-icon>
+      </button>
+    </div>
+    <div class="card-body">
+      <a routerLink='getUrl(product._id)' class="card-title">{{product.name}}</a>
+      <p class="card-subtitle mb-1 text-muted">Style: VA33TXRJ5</p>
+      <p class="card-text">
+        {{product.description}}
+           <!-- <div class="options d-flex flex-fill">
+         <select class="custom-select mr-1">
+            <option selected>Color</option>
+            <option value="1">Green</option>
+            <option value="2">Blue</option>
+            <option value="3">Red</option>
+        </select>
+        <select class="custom-select ml-1">
+            <option selected>Size</option>
+            <option value="1">41</option>
+            <option value="2">42</option>
+            <option value="3">43</option>
+        </select>
+      </div> -->
+      <div class="buy d-flex justify-content-between align-items-center">
+        <div class="price text-success"><h5 class="mt-4"> {{product.price.offerPrice | currency:'INR'}}</h5></div>
+         <button mat-button class="btn btn-warning mt-3">
+            <mat-icon>add_shopping_cart</mat-icon>
+         </button>
+      </div>
+    </div>
+  </div>
+</div>

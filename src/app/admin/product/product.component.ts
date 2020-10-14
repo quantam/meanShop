@@ -1,8 +1,14 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 // import { mimeType } from '../../mime-type.validator';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgForm, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
+import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
+import {MatChipInputEvent} from '@angular/material/chips';
+
 import { ProductService } from './service/product.service';
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 
 
 @Component({
@@ -12,6 +18,7 @@ import { ProductService } from './service/product.service';
 })
 
 export class ProductComponent implements OnInit {
+  @ViewChild('auto',{static:true}) matAutocomplete: MatAutocomplete;
   title= '';
   content= '';
   mode = 'create';
@@ -20,22 +27,25 @@ export class ProductComponent implements OnInit {
   isLoading = false;
   productForm: FormGroup;
   imagePreview:string;
-  categories:any[] = [
-    {name: 'Electronics', id:1},
-    {name: 'Mobile', id:2},
-    {name: 'Laptop', id:3}
-  ]
+  categories$:Observable<any>;
+
+  products$:Observable<any>;
+  tags:string[] = ['Trending', 'Best Seller', 'Offer', 'New Arrival', 'High Rated' ];
+  selectedtags:string[] = [];
 
   constructor(private productService: ProductService, private route: ActivatedRoute, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.productForm = this.fb.group({
       name: new FormControl(null, {validators:[Validators.required, Validators.minLength(3)]}),
-      price: new FormControl(null, {validators:[Validators.required]}),
+      originalPrice: new FormControl(null, {validators:[Validators.required]}),
+      offerPrice: new FormControl(null),
       description: new FormControl(null, {validators:[Validators.required]}),
       category: new FormControl(null, {validators:[Validators.required]}),
-      quantity: new FormControl(null, {validators:[Validators.required]}),
-      image: new FormControl(null, {validators:[Validators.required]})
+      inStock: new FormControl(null, {validators:[Validators.required]}),
+      totalStock: new FormControl(null, {validators:[Validators.required]}),
+      tags: new FormControl(null),
+      image: new FormControl(null)
     });
     this.route.paramMap.subscribe(params => {
       if(params.has('postId')){
@@ -46,24 +56,27 @@ export class ProductComponent implements OnInit {
         //   this.form.setValue({title: res.post.title, content: res.post.content, image: res.post.imagePath});
         // });
       }
-    })
+    });
+
+    this.categories$ = this.productService.getCategories().pipe(shareReplay());
+    this.products$ = this.productService.getProducts(10, 1).pipe(shareReplay());
   }
 
   onSavePost(form: NgForm){
     this.isLoading = true;
-    if(this.form.invalid){
+    if(this.productForm.invalid){
       return;
     }
     if(this.mode === 'edit'){
-      this.productService.updatePost(this.postId, this.form.value.title, this.form.value.content,this.form.value.image).subscribe(res=> {
+      this.productService.updatePost(this.postId, this.productForm.value.title, this.productForm.value.content,this.productForm.value.image).subscribe(res=> {
         this.goToList();
       });
     }else{
-      this.productService.addPosts(this.form.value.title, this.form.value.content, this.form.value.image).subscribe(res => {
-        this.goToList();
+      this.productService.addProduct(this.productForm.value).subscribe(res => {
+        console.log(res);
       });
     }
-    this.form.reset();
+    this.productForm.reset();
   }
 
   goToList(){
@@ -72,12 +85,13 @@ export class ProductComponent implements OnInit {
 
   onImagePicked(event:Event){
     const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({image: file});
-    this.form.get('image').updateValueAndValidity();
+    this.productForm.patchValue({image: file});
+    this.productForm.get('image').updateValueAndValidity();
     const reader= new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result as string;
     };
     reader.readAsDataURL(file);
   }
+
 }
