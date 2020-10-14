@@ -1,0 +1,30 @@
+
+<div class="nav-item" ngbDropdown display="dynamic" placement="bottom-right">
+  <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button">
+    <mat-icon color="warn" matBadge="8" matBadgePosition="before" matBadgeColor="accent">shopping_bag</mat-icon>
+  </a>
+  <div ngbDropdownMenu aria-labelledby="navbarDropdown3" class="dropdown-menu mini-cart">
+    <div class="row">
+      <div class="col-4">image here</div>
+      <div class="col-5">
+        <p>Product Name</p>
+        <p>4000</p>
+      </div>
+      <mat-icon color="warn" (click)="removeFromCart(123)" class="remove-cart">remove_shopping_cart</mat-icon>
+    </div>
+    <div class="border-top my-3"></div>
+    <div class="row">
+      <div class="col-4">image here</div>
+      <div class="col-5">
+        <p>Product Name</p>
+        <p>4000</p>
+      </div>
+      <mat-icon color="warn">remove_shopping_cart</mat-icon>
+    </div>
+    <div class="border-top my-3"></div>
+    <div class="cart-footer d-flex justify-content-between">
+      <span class="text-success">$1200</span>
+      <button mat-raised-button type="submit" color="accent">Buy Now</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+.dropdown-toggle::after {
+  display:none;
+}
+.dropdown-menu {
+  width: 500px !important;
+}
+.mini-cart{
+  font-size: 12px;
+}
+.mini-cart button{
+  font-size: 12px;
+}
+.mini-cart p {
+  margin: 0;
+}
+.remove-cart{
+  cursor: pointer;
+}
